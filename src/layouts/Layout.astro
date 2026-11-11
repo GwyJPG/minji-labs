@@ -1,5 +1,6 @@
 ---
 // Layout.astro - Minji Labs
+import '../styles/global.css';
 import LegalModal from '../components/LegalModal.astro';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = "Minji | Desarrollo Web & Landing Pages",
+  title = "Minji — Desarrollo Web & Landing Pages",
   description = "Creo sitios web rápidos, modernos y con identidad propia para marcas y negocios."
 } = Astro.props;
 ---
@@ -27,9 +28,6 @@ const {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Estilos Globales -->
-  <link rel="stylesheet" href="/src/styles/global.css">
 </head>
 <body>
 
