@@ -1,0 +1,156 @@
+---
+// Layout.astro - Minji Labs
+import LegalModal from '../components/LegalModal.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Minji | Desarrollo Web & Landing Pages",
+  description = "Creo sitios web rápidos, modernos y con identidad propia para marcas y negocios."
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <!-- Google Fonts: Poppins (Titulares) & Inter (Cuerpo & UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Estilos Globales -->
+  <link rel="stylesheet" href="/src/styles/global.css">
+</head>
+<body>
+
+  <!-- Fondo Responsive Fijo: PC (bg-desktop.jpg) vs Celular (bg-mobile.jpg) -->
+  <div class="fixed-bg-wrapper" aria-hidden="true">
+    <div class="fixed-bg-image"></div>
+    <div class="fixed-bg-vignette"></div>
+  </div>
+
+  <!-- Textura de grano analógico -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Contenido Central -->
+  <main class="main-wrapper">
+    <slot />
+  </main>
+
+  <!-- Dock Flotante Inferior (4 Vistas: Inicio, Sobre Mí, Blog, Contacto) -->
+  <nav class="floating-dock-container" aria-label="Navegación principal">
+    <div class="floating-dock">
+      <!-- Píldora activa de cristal esmerilado que se desliza suavemente -->
+      <div class="dock-active-pill" aria-hidden="true"></div>
+
+      <!-- 1. Inicio -->
+      <button type="button" class="dock-item is-active" data-view="home" data-tooltip="Inicio" aria-label="Inicio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </button>
+
+      <!-- 2. Sobre Mí -->
+      <button type="button" class="dock-item" data-view="profile" data-tooltip="Sobre Mí" aria-label="Sobre Mí">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </button>
+
+      <!-- 3. Contacto -->
+      <button type="button" class="dock-item" data-view="contact" data-tooltip="Contacto" aria-label="Contacto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dockItems = document.querySelectorAll<HTMLElement>('.dock-item');
+      const activePill = document.querySelector<HTMLElement>('.dock-active-pill');
+      const viewPanels = document.querySelectorAll<HTMLElement>('.view-panel');
+
+      function updateActivePill(activeBtn: HTMLElement) {
+        if (!activeBtn || !activePill) return;
+        activePill.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+      }
+
+      function switchView(targetViewId: string) {
+        let found = false;
+        viewPanels.forEach(panel => {
+          if (panel.id === `view-${targetViewId}`) {
+            panel.classList.add('is-active');
+            found = true;
+          } else {
+            panel.classList.remove('is-active');
+          }
+        });
+
+        if (!found) {
+          document.getElementById('view-home')?.classList.add('is-active');
+          targetViewId = 'home';
+        }
+
+        dockItems.forEach(btn => {
+          if (btn.dataset.view === targetViewId) {
+            btn.classList.add('is-active');
+            updateActivePill(btn);
+          } else {
+            btn.classList.remove('is-active');
+          }
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.replaceState(null, '', `#${targetViewId}`);
+      }
+
+      dockItems.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const viewId = btn.dataset.view;
+          if (viewId) switchView(viewId);
+        });
+      });
+
+      // Enlaces internos con data-navigate
+      document.querySelectorAll<HTMLElement>('[data-navigate]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const viewId = link.getAttribute('data-navigate');
+          if (viewId) switchView(viewId);
+        });
+      });
+
+      // Hash inicial
+      const initialHash = window.location.hash.replace('#', '') || 'home';
+      const initialBtn = document.querySelector<HTMLElement>(`.dock-item[data-view="${initialHash}"]`) || dockItems[0];
+      if (initialBtn && initialBtn.dataset.view) {
+        switchView(initialBtn.dataset.view);
+        requestAnimationFrame(() => updateActivePill(initialBtn));
+      }
+
+      window.addEventListener('resize', () => {
+        const activeBtn = document.querySelector<HTMLElement>('.dock-item.is-active');
+        if (activeBtn) updateActivePill(activeBtn);
+      });
+    });
+  </script>
+  <!-- Modal con Documentos Legales en Regla -->
+  <LegalModal />
+</body>
+</html>

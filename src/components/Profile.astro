@@ -1,0 +1,270 @@
+---
+// Profile.astro - Minji Labs (En primera persona singular)
+---
+
+<!-- Tarjeta de Perfil idéntica a Selv -->
+<section class="selv-profile-card">
+  <div class="selv-profile-top-label">
+    <span>Desarrollo Web & Landing Pages</span>
+  </div>
+
+  <div class="selv-profile-middle-row">
+    <img 
+      src="/images/avatar-minji.jpg" 
+      alt="Minji Developer" 
+      class="selv-profile-avatar"
+    />
+    <div class="selv-profile-name-col">
+      <div class="selv-profile-headline">
+        <span>Minji</span>
+        <span>Labs</span>
+      </div>
+      <div class="selv-profile-location">
+        Lima, Perú
+      </div>
+    </div>
+  </div>
+
+  <div class="selv-profile-bottom-action">
+    <a href="#contact" data-navigate="contact" class="selv-pill-btn">
+      <span>Contáctame</span>
+    </a>
+  </div>
+</section>
+
+<!-- Sección de propuesta de valor en primera persona -->
+<section class="card-section">
+  <h2 class="selv-section-label">¿Por qué trabajar conmigo?</h2>
+
+  <div class="pitch-callout">
+    <strong>Dedicación completa para tu proyecto:</strong>Al trabajar directamente conmigo, tu proyecto recibe mi atención al 100%. Hablas directamente con quien diseña y programa tu página, sin agencias infladas ni intermediarios.
+  </div>
+
+  <p class="hero-bio">
+    Sé lo frustrante que es pagar por páginas web lentas, idénticas a las demás o que tardan semanas en entregarse. Me enfoco en lo que de verdad importa: que tu web abra al instante en cualquier celular, comunique lo que ofreces con claridad y te ayude a conseguir clientes.
+  </p>
+
+  <div class="pitch-highlights" id="pitch-cards-stack">
+    <div class="pitch-item">
+      <div class="pitch-item-title">
+        <span>Carga Inmediata</span>
+      </div>
+      <p class="pitch-item-desc">
+        Construyo con tecnologías modernas como Astro para que tu web abra al segundo en cualquier celular.
+      </p>
+    </div>
+
+    <div class="pitch-item">
+      <div class="pitch-item-title">
+        <span>Trato 1 a 1 Directo</span>
+      </div>
+      <p class="pitch-item-desc">
+        Hablas directamente conmigo por WhatsApp. Respuestas claras, comunicación transparente y sin rodeos.
+      </p>
+    </div>
+
+    <div class="pitch-item">
+      <div class="pitch-item-title">
+        <span>Diseño Exclusivo</span>
+      </div>
+      <p class="pitch-item-desc">
+        Nada de plantillas pesadas o copiadas. Código limpio y ligero con estética moderna y profesional.
+      </p>
+    </div>
+
+    <div class="pitch-item">
+      <div class="pitch-item-title">
+        <span>Soporte Accesible</span>
+      </div>
+      <p class="pitch-item-desc">
+        Mantenimiento mensual desde 49 soles al mes para que tu web siempre esté activa, segura y actualizada.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupPitchCardsStack() {
+    const stack = document.getElementById('pitch-cards-stack');
+    if (!stack || stack.dataset.initialized) return;
+    stack.dataset.initialized = 'true';
+
+    const cards = Array.from(stack.querySelectorAll<HTMLElement>('.pitch-item'));
+    if (cards.length === 0) return;
+
+    let currentIndex = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
+    let isTransitioning = false;
+
+    function isMobile() {
+      return window.innerWidth <= 640;
+    }
+
+    function renderStack(leavingCard: HTMLElement | null = null, direction: 'left' | 'right' = 'left') {
+      if (!isMobile()) {
+        cards.forEach(card => {
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.zIndex = '';
+          card.style.pointerEvents = '';
+          card.style.filter = '';
+        });
+        return;
+      }
+
+      cards.forEach((card, i) => {
+        if (card === leavingCard) {
+          const x = direction === 'left' ? '-115%' : '115%';
+          const rot = direction === 'left' ? '-7deg' : '7deg';
+          card.style.transform = `translateX(${x}) rotate(${rot}) scale(0.92)`;
+          card.style.opacity = '0';
+          card.style.zIndex = '20';
+          card.style.pointerEvents = 'none';
+          return;
+        }
+
+        const offset = (i - currentIndex + cards.length) % cards.length;
+
+        if (offset === 0) {
+          card.style.transform = 'translateY(0px) scale(1)';
+          card.style.opacity = '1';
+          card.style.zIndex = '10';
+          card.style.pointerEvents = 'auto';
+          card.style.filter = 'none';
+        } else if (offset === 1) {
+          card.style.transform = 'translateY(10px) scale(0.96)';
+          card.style.opacity = '0.72';
+          card.style.zIndex = '9';
+          card.style.pointerEvents = 'none';
+          card.style.filter = 'none';
+        } else if (offset === 2) {
+          card.style.transform = 'translateY(20px) scale(0.92)';
+          card.style.opacity = '0.42';
+          card.style.zIndex = '8';
+          card.style.pointerEvents = 'none';
+          card.style.filter = 'none';
+        } else {
+          card.style.transform = 'translateY(28px) scale(0.88)';
+          card.style.opacity = '0';
+          card.style.zIndex = '7';
+          card.style.pointerEvents = 'none';
+          card.style.filter = 'none';
+        }
+      });
+    }
+
+    function goToNext(manual = false) {
+      if (!isMobile() || isTransitioning) return;
+      isTransitioning = true;
+
+      const leaving = cards[currentIndex];
+      currentIndex = (currentIndex + 1) % cards.length;
+
+      renderStack(leaving, 'left');
+
+      setTimeout(() => {
+        isTransitioning = false;
+        renderStack();
+      }, 450);
+
+      if (manual) restartTimer();
+    }
+
+    function goToPrev(manual = false) {
+      if (!isMobile() || isTransitioning) return;
+      isTransitioning = true;
+
+      const leaving = cards[currentIndex];
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+
+      renderStack(leaving, 'right');
+
+      setTimeout(() => {
+        isTransitioning = false;
+        renderStack();
+      }, 450);
+
+      if (manual) restartTimer();
+    }
+
+    function startTimer() {
+      stopTimer();
+      if (isMobile()) {
+        timer = setInterval(() => {
+          goToNext(false);
+        }, 7000);
+      }
+    }
+
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function restartTimer() {
+      stopTimer();
+      startTimer();
+    }
+
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
+
+    stack.addEventListener('touchstart', (e) => {
+      if (!isMobile()) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      endX = startX;
+      endY = startY;
+    }, { passive: true });
+
+    stack.addEventListener('touchmove', (e) => {
+      if (!isMobile()) return;
+      endX = e.touches[0].clientX;
+      endY = e.touches[0].clientY;
+    }, { passive: true });
+
+    stack.addEventListener('touchend', () => {
+      if (!isMobile()) return;
+      const diffX = endX - startX;
+      const diffY = endY - startY;
+
+      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) {
+          goToNext(true);
+        } else {
+          goToPrev(true);
+        }
+      } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+        goToNext(true);
+      }
+    });
+
+    // Clic o toque sobre la pila (avanza a la siguiente carta)
+    stack.addEventListener('click', () => {
+      if (!isMobile()) return;
+      goToNext(true);
+    });
+
+    renderStack();
+    startTimer();
+
+    window.addEventListener('resize', () => {
+      renderStack();
+      if (isMobile()) {
+        if (!timer) startTimer();
+      } else {
+        stopTimer();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPitchCardsStack);
+  } else {
+    setupPitchCardsStack();
+  }
+</script>

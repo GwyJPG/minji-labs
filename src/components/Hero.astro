@@ -1,0 +1,41 @@
+---
+// Hero.astro - Minji Labs
+import TechMarquee from './TechMarquee.astro';
+---
+
+<section class="selv-profile-card">
+  <!-- Etiqueta superior centrada idéntica a Selv -->
+  <div class="selv-profile-top-label">
+    <span>Desarrollo Web & Landing Pages</span>
+  </div>
+
+  <!-- Fila central: Foto squircle a la izquierda, Nombre apilado a la derecha -->
+  <div class="selv-profile-middle-row">
+    <img 
+      src="/images/avatar-minji.jpg" 
+      alt="Minji Developer" 
+      class="selv-profile-avatar"
+    />
+    <div class="selv-profile-name-col">
+      <div class="selv-profile-headline">
+        <span>Minji</span>
+        <span>Labs</span>
+      </div>
+      <div class="selv-profile-location">
+        Lima, Perú
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón píldora centrado idéntico a Selv -->
+  <div class="selv-profile-bottom-action">
+    <a href="#profile" data-navigate="profile" class="selv-pill-btn">
+      <span>Sobre Mí</span>
+    </a>
+  </div>
+
+  <!-- Carrusel Dinámico de Herramientas -->
+  <div style="margin-top: 18px;">
+    <TechMarquee />
+  </div>
+</section>

@@ -1,0 +1,262 @@
+---
+// Contact.astro - Minji Labs (En primera persona singular, sin GitHub, solo WhatsApp y FAQ limpio)
+import ContactEmailForm from './ContactEmailForm.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo es el proceso de trabajo contigo?",
+    a: "Me escribes por WhatsApp contándome sobre tu negocio y qué necesitas. Evaluamos tu idea y te doy una cotización clara con fechas de entrega, sin intermediarios ni costos ocultos.",
+    isOpen: true
+  },
+  {
+    q: "¿Por qué trabajar conmigo directamente?",
+    a: "Trato 100% directo y sin intermediarios. No hay ejecutivos de cuenta ni reuniones que te quiten tiempo: soy yo quien diseña y programa tu página con atención completa a cada detalle.",
+    isOpen: false
+  },
+  {
+    q: "¿En cuánto tiempo tengo mi web lista?",
+    a: "Una landing de 1 hoja suele estar lista en 3 a 5 días laborables tras tener tus textos y fotos. Proyectos con más páginas o animaciones toman entre 7 y 12 días.",
+    isOpen: false
+  },
+  {
+    q: "¿Cómo funciona el soporte de 49 soles al mes?",
+    a: "Es un servicio mensual opcional y sin contratos forzosos. Me encargo de que tu web siempre esté activa, segura y actualizada con pequeños cambios de textos o fotos cuando me avises por WhatsApp.",
+    isOpen: false
+  },
+  {
+    q: "¿Qué necesito tener listo para empezar?",
+    a: "Tu logotipo (si tienes uno), los textos que quieras incluir y las fotos de tu negocio o producto. Si aún no los tienes listos, te oriento para estructurar el contenido ideal.",
+    isOpen: false
+  }
+];
+---
+
+<!-- Sección de Contacto Directo -->
+<section class="card-section selv-contact-card">
+  <h2 class="selv-section-label">Contacto</h2>
+
+  <p class="hero-bio" style="font-size: 0.92rem; line-height: 1.6; margin-bottom: 16px;">
+    ¿Tienes una idea en mente, necesitas cotizar tu web o quieres soporte para tu página actual? Escríbeme directamente por WhatsApp y coordinamos al instante:
+  </p>
+
+  <div class="contact-action-wrapper">
+    <a 
+      href="https://wa.me/51999999999?text=Hola%20Minji%2C%20quisiera%20cotizar%20un%20servicio%20web" 
+      target="_blank" 
+      rel="noopener" 
+      class="contact-whatsapp-primary-btn"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="whatsapp-btn-icon" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span>Escribirme por WhatsApp</span>
+    </a>
+  </div>
+</section>
+
+<!-- Sección FAQ (Preguntas Frecuentes Mejoradas) -->
+<section class="card-section selv-faq-section">
+  <h2 class="selv-section-label">Preguntas Frecuentes</h2>
+
+  <div class="faq-list-group">
+    {faqs.map((faq) => (
+      <div class={`faq-item-row ${faq.isOpen ? 'is-open' : ''}`}>
+        <button class="faq-row-btn" type="button" aria-expanded={faq.isOpen ? 'true' : 'false'}>
+          <span class="faq-row-title">{faq.q}</span>
+          <span class="faq-row-symbol">{faq.isOpen ? '—' : '+'}</span>
+        </button>
+        <div class="faq-accordion-drawer">
+          <div class="faq-drawer-inner">
+            <p class="faq-drawer-text">{faq.a}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- Formulario Directo de Contacto por Correo -->
+<ContactEmailForm />
+
+<style>
+  .selv-contact-card, .selv-faq-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+
+  @media (min-width: 640px) {
+    .selv-contact-card, .selv-faq-section {
+      padding: 32px;
+      gap: 20px;
+    }
+  }
+
+  .contact-action-wrapper {
+    display: flex;
+    margin-top: 4px;
+  }
+
+  .contact-whatsapp-primary-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: var(--radius-inner);
+    background: rgba(37, 211, 102, 0.14);
+    border: 1px solid rgba(37, 211, 102, 0.35);
+    color: #25d366;
+    font-family: var(--font-heading);
+    font-size: 0.96rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .contact-whatsapp-primary-btn:hover {
+    background: rgba(37, 211, 102, 0.24);
+    border-color: rgba(37, 211, 102, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -4px rgba(37, 211, 102, 0.25);
+  }
+
+  .whatsapp-btn-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  /* FAQ Accordion sin rebote */
+  .faq-list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .faq-item-row {
+    width: 100%;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+  }
+
+  .faq-item-row:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  .faq-item-row.is-open {
+    background: rgba(24, 24, 30, 0.85);
+    border-color: var(--c-primary-border);
+  }
+
+  .faq-row-btn {
+    width: 100%;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .faq-row-title {
+    color: var(--c-text-primary);
+    line-height: 1.35;
+  }
+
+  .faq-row-symbol {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.65);
+    flex-shrink: 0;
+  }
+
+  .faq-item-row.is-open .faq-row-symbol {
+    color: var(--c-primary);
+    font-weight: 400;
+  }
+
+  .faq-accordion-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item-row.is-open .faq-accordion-drawer {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-drawer-inner {
+    min-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 200ms ease, transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item-row.is-open .faq-drawer-inner {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 240ms ease 40ms, transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-drawer-text {
+    padding: 0 20px 18px;
+    font-size: 0.88rem;
+    color: var(--c-text-secondary);
+    line-height: 1.6;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const rows = document.querySelectorAll<HTMLElement>('.faq-item-row');
+
+    rows.forEach((item) => {
+      const btn = item.querySelector<HTMLElement>('.faq-row-btn');
+      const symbol = item.querySelector<HTMLElement>('.faq-row-symbol');
+      if (!btn || !symbol) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('is-open');
+
+        rows.forEach((other) => {
+          if (other !== item) {
+            other.classList.remove('is-open');
+            const otherBtn = other.querySelector<HTMLElement>('.faq-row-btn');
+            const otherSymbol = other.querySelector<HTMLElement>('.faq-row-symbol');
+            if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+            if (otherSymbol) otherSymbol.textContent = '+';
+          }
+        });
+
+        if (isOpen) {
+          item.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+          symbol.textContent = '+';
+        } else {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          symbol.textContent = '—';
+        }
+      });
+    });
+  });
+</script>

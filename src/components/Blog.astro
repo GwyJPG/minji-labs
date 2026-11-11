@@ -1,0 +1,157 @@
+---
+// Blog.astro - Sintaxis Minji (Vectores temáticos y títulos anclados a la esquina inferior izquierda)
+const articles = [
+  {
+    title: "Server-Side Rendering (SSR) vs Static Site Generation (SSG): Dilema del rendimiento",
+    url: "https://sintaxisminji.blog/blog/server-side-rendering-ssr-vs-static-site-generation-ssg-el-dilema-del-rendimiento",
+    vector: "server"
+  },
+  {
+    title: "Automatizando la Paz Mental: GitHub Actions para reducir el estrés",
+    url: "https://sintaxisminji.blog/blog/automatizando-la-paz-mental-github-actions-para-reducir-el-estres",
+    vector: "workflow"
+  },
+  {
+    title: "De picar código a orquestar sistemas: Optimizando VS Code con Cline y DeepSeek",
+    url: "https://sintaxisminji.blog/blog/de-picar-codigo-a-orquestar-sistemas-optimizando-vs-code-con-cline-y-deepseek",
+    vector: "terminal"
+  },
+  {
+    title: "El dilema del erizo: Ansiedad de separación y el Yo fragmentado en Shinji Ikari",
+    url: "https://sintaxisminji.blog/blog/el-dilema-del-erizo-ansiedad-de-separacion-y-el-yo-fragmentado-en-shinji-ikari",
+    vector: "brain"
+  }
+];
+---
+
+<section class="card-section selv-blog-section">
+  <!-- Título limpio sin píldoras ni badges -->
+  <h2 class="selv-section-label">Blog</h2>
+
+  <div class="sintaxis-articles-grid">
+    {articles.map((art) => (
+      <a 
+        href={art.url} 
+        target="_blank" 
+        rel="noopener" 
+        class="sintaxis-article-card"
+      >
+        <!-- Vector temático en la esquina superior derecha -->
+        <div class="sintaxis-vector-slot">
+          {art.vector === 'server' && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          )}
+
+          {art.vector === 'workflow' && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          )}
+
+          {art.vector === 'terminal' && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+          )}
+
+          {art.vector === 'brain' && (
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"></path>
+              <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-5.04z"></path>
+            </svg>
+          )}
+        </div>
+
+        <!-- Título anclado a la esquina inferior izquierda -->
+        <div class="sintaxis-title-slot">
+          <h3 class="sintaxis-article-title">{art.title}</h3>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .selv-blog-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+
+  @media (min-width: 640px) {
+    .selv-blog-section {
+      padding: 32px;
+      gap: 20px;
+    }
+  }
+
+  .sintaxis-articles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @media (min-width: 540px) {
+    .sintaxis-articles-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Tarjeta de artículo */
+  .sintaxis-article-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 160px;
+    padding: 22px;
+    border-radius: 20px;
+    background: rgba(16, 16, 20, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .sintaxis-article-card:hover {
+    background: rgba(24, 24, 30, 0.85);
+    border-color: var(--c-primary-border);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Vector en la esquina superior derecha */
+  .sintaxis-vector-slot {
+    align-self: flex-end;
+    color: var(--c-primary);
+    opacity: 0.85;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .sintaxis-article-card:hover .sintaxis-vector-slot {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  /* Título pegado a la esquina inferior izquierda */
+  .sintaxis-title-slot {
+    margin-top: auto;
+    text-align: left;
+  }
+
+  .sintaxis-article-title {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.38;
+    letter-spacing: -0.015em;
+  }
+</style>
