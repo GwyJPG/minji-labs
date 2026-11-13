@@ -1,0 +1,57 @@
+---
+import { Picture } from 'astro:assets';
+import avatarImg from '../assets/images/avatar-minji.jpg';
+import { SITE_CONFIG } from '../data/site';
+
+interface Props {
+  ctaLabel: string;
+  ctaTarget: string;
+  headingTag?: 'h1' | 'div';
+  topLabel?: string;
+}
+
+const {
+  ctaLabel,
+  ctaTarget,
+  headingTag = 'div',
+  topLabel = 'Webs rápidas · Trato directo 1 a 1',
+} = Astro.props;
+const HeadingTag = headingTag;
+---
+
+<section class="profile-card">
+  <div class="profile-top-label">
+    <span>{topLabel}</span>
+  </div>
+
+  <div class="profile-middle-row">
+    <Picture
+      src={avatarImg}
+      formats={['avif', 'webp']}
+      widths={[155, 310]}
+      sizes="(max-width: 640px) 130px, 155px"
+      alt="Minji Developer"
+      class="profile-avatar"
+      pictureAttributes={{ style: 'display: contents;' }}
+      decoding="async"
+      loading="eager"
+    />
+    <div class="profile-name-col">
+      <HeadingTag class="profile-headline">
+        <span>Minji</span>
+        <span>Labs</span>
+      </HeadingTag>
+      <div class="profile-location">
+        {SITE_CONFIG.location}
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-bottom-action">
+    <a href={`#${ctaTarget}`} data-navigate={ctaTarget} class="pill-btn">
+      <span>{ctaLabel}</span>
+    </a>
+  </div>
+
+  <slot />
+</section>

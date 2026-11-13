@@ -1,26 +1,15 @@
 ---
-// TechMarquee.astro - Carrusel dinámico de herramientas que usamos (Minji Labs)
-const tools = [
-  { name: "Astro 5"},
-  { name: "Tailwind CSS"},
-  { name: "TypeScript"},
-  { name: "React"},
-  { name: "Node.js"},
-  { name: "Figma"},
-  { name: "Vercel"}
-];
+import { TECH_TOOLS } from '../data/site';
 
-// Duplicamos el array para el bucle continuo perfecto al -50%
-const marqueeList = [...tools, ...tools];
+const marqueeList = [...TECH_TOOLS, ...TECH_TOOLS];
 ---
 
 <div class="tech-marquee-wrapper" title="Herramientas y tecnologías con las que trabajo en Minji Labs">
   <div class="marquee-track">
     {marqueeList.map((tool) => (
       <div class="marquee-item">
-        <span class="marquee-icon">{tool.icon}</span>
         <span class="marquee-name">{tool.name}</span>
-        <span class="marquee-separator">•</span>
+        <span class="marquee-separator" aria-hidden="true">•</span>
       </div>
     ))}
   </div>
@@ -39,7 +28,6 @@ const marqueeList = [...tools, ...tools];
     position: relative;
     user-select: none;
     cursor: default;
-    /* Máscara de degradado a los lados idéntica a Framer Selv */
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%);
     transition: border-color 0.2s ease, background 0.2s ease;
@@ -71,10 +59,6 @@ const marqueeList = [...tools, ...tools];
     font-size: 0.86rem;
     font-weight: 500;
     color: var(--c-text-secondary);
-  }
-
-  .marquee-icon {
-    font-size: 0.95rem;
   }
 
   .marquee-name {

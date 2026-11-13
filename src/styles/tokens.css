@@ -1,0 +1,33 @@
+:root {
+  --c-primary: #c82b43;
+  --c-primary-hover: #b02439;
+  --c-primary-glow: rgba(200, 43, 67, 0.28);
+  --c-primary-subtle: rgba(200, 43, 67, 0.12);
+  --c-primary-border: rgba(200, 43, 67, 0.35);
+
+  --c-bg-page: #09090b;
+  --c-card-bg: rgba(18, 18, 22, 0.72);
+  --c-card-bg-hover: rgba(24, 24, 30, 0.85);
+  --c-card-border: rgba(255, 255, 255, 0.08);
+  --c-card-border-hover: rgba(255, 255, 255, 0.16);
+
+  --c-text-primary: #ffffff;
+  --c-text-secondary: rgba(255, 255, 255, 0.78);
+  /* >= 0.62 sobre #09090b asegura ratio WCAG AA >= 4.5:1 */
+  --c-text-muted: rgba(255, 255, 255, 0.62);
+  --c-text-subtle: rgba(255, 255, 255, 0.48);
+
+  --c-dock-bg: rgba(15, 15, 18, 0.82);
+  --c-dock-border: rgba(255, 255, 255, 0.12);
+  --c-dock-pill: rgba(255, 255, 255, 0.14);
+  --c-dock-pill-border: rgba(255, 255, 255, 0.2);
+
+  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --radius-card: 32px;
+  --radius-inner: 20px;
+  --radius-pill: 9999px;
+  --shadow-card: 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--c-card-border);
+  --shadow-dock: 0 20px 48px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--c-dock-border);
+}

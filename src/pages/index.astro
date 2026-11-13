@@ -1,38 +1,24 @@
 ---
-// index.astro - Minji Labs
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
 import Profile from '../components/Profile.astro';
 import Blog from '../components/Blog.astro';
 import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Minji — Desarrollo Web & Landing Pages">
-  <!-- VISTA 1: INICIO (HOME CON HERO, SERVICIOS, BLOG Y FOOTER) -->
+<Layout>
   <div id="view-home" class="view-panel is-active">
     <Hero />
     <Services />
     <Blog />
-    <Footer />
   </div>
 
-  <!-- VISTA 2: SOBRE MÍ (PERFIL Y PROPUESTA DE VALOR) -->
   <div id="view-profile" class="view-panel">
     <Profile />
-    <Footer />
   </div>
 
-  <!-- VISTA 3: BLOG (ARTÍCULOS SINTAXIS MINJI) -->
-  <div id="view-blog" class="view-panel">
-    <Blog />
-    <Footer />
-  </div>
-
-  <!-- VISTA 4: CONTACTO & FAQ -->
   <div id="view-contact" class="view-panel">
     <Contact />
-    <Footer />
   </div>
 </Layout>

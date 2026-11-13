@@ -1,43 +1,19 @@
 ---
-// Blog.astro - Sintaxis Minji (Vectores temáticos y títulos anclados a la esquina inferior izquierda)
-const articles = [
-  {
-    title: "Server-Side Rendering (SSR) vs Static Site Generation (SSG): Dilema del rendimiento",
-    url: "https://sintaxisminji.blog/blog/server-side-rendering-ssr-vs-static-site-generation-ssg-el-dilema-del-rendimiento",
-    vector: "server"
-  },
-  {
-    title: "Automatizando la Paz Mental: GitHub Actions para reducir el estrés",
-    url: "https://sintaxisminji.blog/blog/automatizando-la-paz-mental-github-actions-para-reducir-el-estres",
-    vector: "workflow"
-  },
-  {
-    title: "De picar código a orquestar sistemas: Optimizando VS Code con Cline y DeepSeek",
-    url: "https://sintaxisminji.blog/blog/de-picar-codigo-a-orquestar-sistemas-optimizando-vs-code-con-cline-y-deepseek",
-    vector: "terminal"
-  },
-  {
-    title: "El dilema del erizo: Ansiedad de separación y el Yo fragmentado en Shinji Ikari",
-    url: "https://sintaxisminji.blog/blog/el-dilema-del-erizo-ansiedad-de-separacion-y-el-yo-fragmentado-en-shinji-ikari",
-    vector: "brain"
-  }
-];
+import { BLOG_ARTICLES } from '../data/site';
 ---
 
-<section class="card-section selv-blog-section">
-  <!-- Título limpio sin píldoras ni badges -->
-  <h2 class="selv-section-label">Blog</h2>
+<section class="card-section blog-section">
+  <h2 class="section-label">Blog</h2>
 
-  <div class="sintaxis-articles-grid">
-    {articles.map((art) => (
-      <a 
-        href={art.url} 
-        target="_blank" 
-        rel="noopener" 
-        class="sintaxis-article-card"
+  <div class="articles-grid">
+    {BLOG_ARTICLES.map((art) => (
+      <a
+        href={art.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="article-card"
       >
-        <!-- Vector temático en la esquina superior derecha -->
-        <div class="sintaxis-vector-slot">
+        <div class="article-vector-slot" aria-hidden="true">
           {art.vector === 'server' && (
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
@@ -69,9 +45,8 @@ const articles = [
           )}
         </div>
 
-        <!-- Título anclado a la esquina inferior izquierda -->
-        <div class="sintaxis-title-slot">
-          <h3 class="sintaxis-article-title">{art.title}</h3>
+        <div class="article-title-slot">
+          <h3 class="article-title">{art.title}</h3>
         </div>
       </a>
     ))}
@@ -79,7 +54,7 @@ const articles = [
 </section>
 
 <style>
-  .selv-blog-section {
+  .blog-section {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -87,26 +62,25 @@ const articles = [
   }
 
   @media (min-width: 640px) {
-    .selv-blog-section {
+    .blog-section {
       padding: 32px;
       gap: 20px;
     }
   }
 
-  .sintaxis-articles-grid {
+  .articles-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
   @media (min-width: 540px) {
-    .sintaxis-articles-grid {
+    .articles-grid {
       grid-template-columns: 1fr 1fr;
     }
   }
 
-  /* Tarjeta de artículo */
-  .sintaxis-article-card {
+  .article-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -120,33 +94,31 @@ const articles = [
     transition: all 0.25s ease;
   }
 
-  .sintaxis-article-card:hover {
+  .article-card:hover {
     background: rgba(24, 24, 30, 0.85);
     border-color: var(--c-primary-border);
     transform: translateY(-2px);
     box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
   }
 
-  /* Vector en la esquina superior derecha */
-  .sintaxis-vector-slot {
+  .article-vector-slot {
     align-self: flex-end;
     color: var(--c-primary);
     opacity: 0.85;
     transition: transform 0.25s ease, opacity 0.25s ease;
   }
 
-  .sintaxis-article-card:hover .sintaxis-vector-slot {
+  .article-card:hover .article-vector-slot {
     transform: scale(1.1);
     opacity: 1;
   }
 
-  /* Título pegado a la esquina inferior izquierda */
-  .sintaxis-title-slot {
+  .article-title-slot {
     margin-top: auto;
     text-align: left;
   }
 
-  .sintaxis-article-title {
+  .article-title {
     font-family: var(--font-heading);
     font-size: 0.95rem;
     font-weight: 600;

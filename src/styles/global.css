@@ -1,48 +1,3 @@
-/* ==========================================================================
-   MINJI LABS — GLOBAL STYLES (Inspirado en la estética Selv Framer)
-   Tipografías: Poppins & Inter | Paleta Oficial Minji | Fondos Responsive PC/Móvil
-   ========================================================================== */
-
-:root {
-  /* Paleta Oficial Minji Labs */
-  --c-primary: #c82b43;               /* Rojo/carmesí de marca */
-  --c-primary-hover: #b02439;         /* Tono hover */
-  --c-primary-glow: rgba(200, 43, 67, 0.28); /* Resplandor */
-  --c-primary-subtle: rgba(200, 43, 67, 0.12); /* Acentos suaves */
-  --c-primary-border: rgba(200, 43, 67, 0.35);
-
-  /* Superficies Oscuras Obsidian & Glass */
-  --c-bg-page: #09090b;
-  --c-card-bg: rgba(18, 18, 22, 0.72);
-  --c-card-bg-hover: rgba(24, 24, 30, 0.85);
-  --c-card-border: rgba(255, 255, 255, 0.08);
-  --c-card-border-hover: rgba(255, 255, 255, 0.16);
-
-  /* Textos & Contrastes */
-  --c-text-primary: #ffffff;
-  --c-text-secondary: rgba(255, 255, 255, 0.75);
-  --c-text-muted: rgba(255, 255, 255, 0.45);
-  --c-text-subtle: rgba(255, 255, 255, 0.28);
-
-  /* Dock flotante */
-  --c-dock-bg: rgba(15, 15, 18, 0.82);
-  --c-dock-border: rgba(255, 255, 255, 0.12);
-  --c-dock-pill: rgba(255, 255, 255, 0.14);
-  --c-dock-pill-border: rgba(255, 255, 255, 0.2);
-
-  /* Tipografías */
-  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-  /* Sombras y Radios */
-  --radius-card: 32px;
-  --radius-inner: 20px;
-  --radius-pill: 9999px;
-  --shadow-card: 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--c-card-border);
-  --shadow-dock: 0 20px 48px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--c-dock-border);
-}
-
-/* Reset y Base */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -56,11 +11,10 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scrollbar-width: none; /* Ocultar scrollbar en Firefox */
-  -ms-overflow-style: none; /* Ocultar scrollbar en IE y Edge clásico */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Reducción proporcional de tipografía en modo responsive */
 @media (max-width: 640px) {
   html {
     font-size: 14.5px;
@@ -69,11 +23,10 @@ html {
 
 @media (max-width: 380px) {
   html {
-    font-size: 13.5px;
+    font-size: 14px;
   }
 }
 
-/* Ocultar scrollbar por defecto en navegadores basados en WebKit/Blink (Chrome, Edge, Safari, Brave) */
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
@@ -90,12 +43,15 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
   position: relative;
-  padding-bottom: 110px; /* Margen para dock inferior */
+  padding-bottom: 110px;
 }
 
-/* ==========================================================================
-   FONDO FIJO CON MÁSCARA Y DEGRADADO (PC vs Móvil adaptativo)
-   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 3px;
+}
+
+/* Fondo fijo adaptativo */
 .fixed-bg-wrapper {
   position: fixed;
   top: 0;
@@ -110,22 +66,20 @@ body {
 }
 
 .fixed-bg-image {
+  display: block;
   width: 100%;
   height: 120vh;
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center top;
   opacity: 0.52;
   filter: saturate(1.15) brightness(0.85);
   transform: scale(1.02);
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
-  background-image: url('/images/bg-desktop.jpg');
 }
 
 @media (max-width: 768px) {
   .fixed-bg-image {
-    background-image: url('/images/bg-mobile.jpg');
-    background-position: center center;
+    object-position: center center;
     opacity: 0.58;
   }
 }
@@ -145,9 +99,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* ==========================================================================
-   CONTENEDOR PRINCIPAL CENTRADO
-   ========================================================================== */
+/* Contenedor principal */
 .main-wrapper {
   position: relative;
   z-index: 2;
@@ -167,7 +119,6 @@ body {
   }
 }
 
-/* Tarjeta estándar Glassmorphism */
 .card-section {
   background: var(--c-card-bg);
   backdrop-filter: blur(28px) saturate(140%);
@@ -197,10 +148,7 @@ h1, h2, h3, h4, .font-heading {
   font-weight: 600;
 }
 
-/* ==========================================================================
-   ETIQUETA DE SECCIÓN LIMPIA (Idéntica a Imagen 1 / Selv)
-   ========================================================================== */
-.selv-section-label {
+.section-label {
   font-family: var(--font-heading);
   font-size: 0.95rem;
   font-weight: 500;
@@ -210,30 +158,14 @@ h1, h2, h3, h4, .font-heading {
   line-height: 1.4;
 }
 
-.section-title {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--c-text-primary);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.hero-bio {
+  font-size: 0.92rem;
+  color: var(--c-text-secondary);
+  line-height: 1.65;
 }
 
-.section-badge {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--c-primary);
-  background: var(--c-primary-subtle);
-  border: 1px solid var(--c-primary-border);
-  padding: 3px 9px;
-  border-radius: var(--radius-pill);
-}
-
-/* ==========================================================================
-   PERFIL CARD (Réplica exacta de la 2da imagen de Selv)
-   ========================================================================== */
-.selv-profile-card {
+/* Tarjeta de perfil */
+.profile-card {
   display: flex;
   flex-direction: column;
   padding: 32px 24px 28px;
@@ -246,13 +178,12 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @media (min-width: 640px) {
-  .selv-profile-card {
+  .profile-card {
     padding: 36px 36px 32px;
   }
 }
 
-/* Etiqueta superior centrada (ej: "Product Designer") */
-.selv-profile-top-label {
+.profile-top-label {
   text-align: center;
   font-family: var(--font-heading);
   font-size: 0.95rem;
@@ -262,8 +193,7 @@ h1, h2, h3, h4, .font-heading {
   margin-bottom: 24px;
 }
 
-/* Fila central: squircle a la izquierda, nombre a la derecha */
-.selv-profile-middle-row {
+.profile-middle-row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -272,13 +202,12 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @media (min-width: 640px) {
-  .selv-profile-middle-row {
+  .profile-middle-row {
     gap: 32px;
   }
 }
 
-/* Squircle avatar idéntico a Selv */
-.selv-profile-avatar {
+.profile-avatar {
   width: 130px;
   height: 130px;
   border-radius: 36px;
@@ -289,21 +218,20 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @media (min-width: 640px) {
-  .selv-profile-avatar {
+  .profile-avatar {
     width: 155px;
     height: 155px;
     border-radius: 42px;
   }
 }
 
-/* Columna de Nombre y Ubicación */
-.selv-profile-name-col {
+.profile-name-col {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.selv-profile-headline {
+.profile-headline {
   font-family: var(--font-heading);
   font-size: 2.4rem;
   font-weight: 700;
@@ -315,25 +243,24 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @media (min-width: 640px) {
-  .selv-profile-headline {
+  .profile-headline {
     font-size: 3rem;
   }
 }
 
-.selv-profile-location {
+.profile-location {
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.68);
   margin-top: 8px;
   font-weight: 400;
 }
 
-/* Botón píldora centrado inferior (ej: "About Me" / "Sobre Mí") */
-.selv-profile-bottom-action {
+.profile-bottom-action {
   display: flex;
   justify-content: center;
 }
 
-.selv-pill-btn {
+.pill-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -351,76 +278,13 @@ h1, h2, h3, h4, .font-heading {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.selv-pill-btn:hover {
+.pill-btn:hover {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.35);
   transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   BLOG / NOTAS (Sintaxis Minji)
-   ========================================================================== */
-.blog-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-@media (min-width: 540px) {
-  .blog-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.blog-card {
-  border-radius: var(--radius-inner);
-  background: rgba(14, 14, 18, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 18px 20px;
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: all 0.25s ease;
-}
-
-.blog-card:hover {
-  border-color: var(--c-primary-border);
-  transform: translateY(-2px);
-  background: rgba(22, 22, 28, 0.75);
-}
-
-.blog-category-tag {
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--c-primary);
-}
-
-.blog-card-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--c-text-primary);
-  line-height: 1.4;
-  margin-bottom: auto;
-}
-
-.blog-card-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.76rem;
-  color: var(--c-text-muted);
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* ==========================================================================
-   PITCH & BENEFICIOS EN PERFIL
-   ========================================================================== */
+/* Propuesta de valor en Perfil */
 .pitch-callout {
   padding: 16px 20px;
   border-radius: var(--radius-inner);
@@ -465,13 +329,12 @@ h1, h2, h3, h4, .font-heading {
   line-height: 1.5;
 }
 
-/* Modo Responsive: Cartas Apiladas (Deck Stack interactivo sin flechas ni barras) */
 @media (max-width: 640px) {
   .pitch-highlights {
     display: block;
     position: relative;
     width: 100%;
-    height: 136px;
+    min-height: 136px;
     margin-top: 18px;
     margin-bottom: 24px;
     touch-action: pan-y;
@@ -497,62 +360,7 @@ h1, h2, h3, h4, .font-heading {
   }
 }
 
-/* ==========================================================================
-   CONTACTO DIRECTO & FAQ
-   ========================================================================== */
-.contact-grid-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-@media (min-width: 480px) {
-  .contact-grid-buttons {
-    flex-direction: row;
-  }
-}
-
-.contact-direct-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 20px;
-  border-radius: 16px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.btn-whatsapp {
-  background: rgba(37, 211, 102, 0.15);
-  border: 1px solid rgba(37, 211, 102, 0.35);
-  color: #25d366;
-}
-
-.btn-whatsapp:hover {
-  background: rgba(37, 211, 102, 0.25);
-  transform: translateY(-2px);
-}
-
-.btn-email {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-}
-
-.btn-email:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: var(--c-primary-border);
-  transform: translateY(-2px);
-}
-
-/* ==========================================================================
-   FOOTER
-   ========================================================================== */
+/* Footer */
 .minji-footer {
   text-align: center;
   padding: 28px 24px;
@@ -578,13 +386,6 @@ h1, h2, h3, h4, .font-heading {
   margin-top: -4px;
 }
 
-.footer-social-links {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin: 6px 0;
-}
-
 .footer-legal-bar {
   display: flex;
   align-items: center;
@@ -601,9 +402,9 @@ h1, h2, h3, h4, .font-heading {
   border: none;
   color: var(--c-text-muted);
   font-family: var(--font-body);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   cursor: pointer;
-  padding: 3px 6px;
+  padding: 6px 8px;
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color 0.2s ease;
@@ -614,7 +415,7 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .legal-dot {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.28);
   font-size: 0.72rem;
 }
 
@@ -624,9 +425,7 @@ h1, h2, h3, h4, .font-heading {
   margin-top: 4px;
 }
 
-/* ==========================================================================
-   MODAL DE DOCUMENTOS LEGALES (Obsidian Glass)
-   ========================================================================== */
+/* Modal legal */
 .legal-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -639,12 +438,14 @@ h1, h2, h3, h4, .font-heading {
   justify-content: center;
   padding: 16px;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
 }
 
 .legal-modal-backdrop.is-open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
@@ -687,8 +488,8 @@ h1, h2, h3, h4, .font-heading {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--c-text-secondary);
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -719,7 +520,7 @@ h1, h2, h3, h4, .font-heading {
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 8px 14px;
   border-radius: 9999px;
   white-space: nowrap;
   cursor: pointer;
@@ -767,12 +568,10 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .legal-clause-text {
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.74);
 }
 
-/* ==========================================================================
-   DOCK FLOTANTE (Acabado cristal Selv, alineación exacta)
-   ========================================================================== */
+/* Dock flotante */
 .floating-dock-container {
   position: fixed;
   bottom: 24px;
@@ -802,10 +601,10 @@ h1, h2, h3, h4, .font-heading {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
   transition: color 0.2s ease;
   background: transparent;
@@ -814,7 +613,7 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .dock-item:hover {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .dock-item.is-active {
@@ -826,13 +625,12 @@ h1, h2, h3, h4, .font-heading {
   height: 20px;
 }
 
-/* Píldora activa de cristal esmerilado sin bordes toscos */
 .dock-active-pill {
   position: absolute;
   top: 5px;
   left: 0;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -881,97 +679,12 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ==========================================================================
-   POPOVER DE VALIDACIÓN PERSONALIZADO (Minji Obsidian Glass)
-   ========================================================================== */
-.selv-email-form-card {
-  overflow: visible !important;
-}
-
-.input-relative-wrap {
-  position: relative !important;
-  width: 100% !important;
-}
-
-.input-relative-wrap.has-error .form-input,
-.input-relative-wrap.has-error .form-textarea {
-  border-color: #ef4444 !important;
-  background: rgba(24, 16, 18, 0.85) !important;
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3) !important;
-}
-
-.custom-validation-popover {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 10px;
-  z-index: 100;
-  align-items: center;
-  gap: 9px;
-  padding: 7px 14px 7px 10px;
-  background: #1c1c24;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 9px;
-  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  animation: popoverFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.custom-validation-popover::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 18px;
-  width: 10px;
-  height: 10px;
-  background: #1c1c24;
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  transform: rotate(45deg);
-}
-
-.input-relative-wrap.show-popover .custom-validation-popover {
-  display: inline-flex !important;
-}
-
-.popover-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  background: #e65100;
-  color: #ffffff;
-  font-family: var(--font-heading);
-  font-size: 0.78rem;
-  font-weight: 800;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.popover-text {
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #ffffff;
-  line-height: 1.25;
-}
-
-@keyframes popoverFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-4px) scale(0.97);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
-

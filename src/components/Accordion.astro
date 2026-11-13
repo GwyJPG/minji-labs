@@ -1,0 +1,246 @@
+---
+export interface AccordionEntry {
+  id: string;
+  title: string;
+  desc: string;
+  features?: string[];
+  isOpen?: boolean;
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+interface Props {
+  items: AccordionEntry[];
+  groupId: string;
+}
+
+const { items, groupId } = Astro.props;
+---
+
+<div class="accordion-list-group" data-accordion-group={groupId}>
+  {items.map((item) => (
+    <div
+      class={`accordion-item-row ${item.isOpen ? 'is-open' : ''}`}
+      data-item-id={item.id}
+    >
+      <button
+        class="accordion-row-btn"
+        type="button"
+        aria-expanded={item.isOpen ? 'true' : 'false'}
+      >
+        <span class="accordion-row-title">{item.title}</span>
+        <span class="accordion-row-symbol" aria-hidden="true">{item.isOpen ? '—' : '+'}</span>
+      </button>
+
+      <div class="accordion-drawer">
+        <div class="accordion-drawer-inner">
+          <p class="accordion-drawer-text">{item.desc}</p>
+
+          {item.features && item.features.length > 0 && (
+            <div class="accordion-drawer-tags">
+              {item.features.map((feature) => (
+                <span class="accordion-drawer-tag">✓ {feature}</span>
+              ))}
+            </div>
+          )}
+
+          {item.ctaHref && item.ctaLabel && (
+            <div class="accordion-drawer-cta">
+              <a
+                href={item.ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="accordion-whatsapp-link"
+              >
+                <span>{item.ctaLabel}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .accordion-list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .accordion-item-row {
+    width: 100%;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+  }
+
+  .accordion-item-row:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  .accordion-item-row.is-open {
+    background: rgba(24, 24, 30, 0.85);
+    border-color: var(--c-primary-border);
+    box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.5);
+  }
+
+  .accordion-row-btn {
+    width: 100%;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .accordion-row-title {
+    color: var(--c-text-primary);
+    line-height: 1.35;
+  }
+
+  .accordion-row-symbol {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.65);
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  .accordion-item-row.is-open .accordion-row-symbol {
+    color: var(--c-primary);
+    font-weight: 400;
+  }
+
+  .accordion-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .accordion-item-row.is-open .accordion-drawer {
+    grid-template-rows: 1fr;
+  }
+
+  .accordion-drawer-inner {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 200ms ease, transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .accordion-item-row.is-open .accordion-drawer-inner {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 240ms ease 40ms, transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .accordion-drawer-text {
+    padding: 0 20px 14px;
+    font-size: 0.9rem;
+    color: var(--c-text-secondary);
+    line-height: 1.6;
+  }
+
+  .accordion-drawer-tags {
+    padding: 0 20px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .accordion-drawer-tag {
+    font-size: 0.76rem;
+    color: var(--c-text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .accordion-drawer-cta {
+    padding: 0 20px 18px;
+  }
+
+  .accordion-whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--c-primary);
+    text-decoration: none;
+    transition: gap 0.2s ease, color 0.2s ease;
+  }
+
+  .accordion-whatsapp-link:hover {
+    color: #ffffff;
+    gap: 12px;
+  }
+</style>
+
+<script>
+  function setupAccordions() {
+    const groups = document.querySelectorAll<HTMLElement>('[data-accordion-group]');
+
+    groups.forEach((group) => {
+      if (group.dataset.initialized === 'true') return;
+      group.dataset.initialized = 'true';
+
+      const rows = group.querySelectorAll<HTMLElement>('.accordion-item-row');
+
+      rows.forEach((item) => {
+        const btn = item.querySelector<HTMLElement>('.accordion-row-btn');
+        const symbol = item.querySelector<HTMLElement>('.accordion-row-symbol');
+        if (!btn || !symbol) return;
+
+        btn.addEventListener('click', () => {
+          const isOpen = item.classList.contains('is-open');
+
+          rows.forEach((other) => {
+            if (other !== item) {
+              other.classList.remove('is-open');
+              const otherBtn = other.querySelector<HTMLElement>('.accordion-row-btn');
+              const otherSymbol = other.querySelector<HTMLElement>('.accordion-row-symbol');
+              if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+              if (otherSymbol) otherSymbol.textContent = '+';
+            }
+          });
+
+          const nextState = !isOpen;
+          item.classList.toggle('is-open', nextState);
+          btn.setAttribute('aria-expanded', nextState ? 'true' : 'false');
+          symbol.textContent = nextState ? '—' : '+';
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupAccordions);
+  } else {
+    setupAccordions();
+  }
+</script>

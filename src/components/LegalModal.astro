@@ -1,22 +1,19 @@
 ---
-// LegalModal.astro - Documentos Legales en Regla (Minji Labs)
-// Términos del Servicio, Política de Privacidad (Ley N° 29733 Perú) y Acuerdo de Soporte
+// Documentos legales (Ley N° 29733 Perú, Términos y Soporte)
 ---
 
 <div id="legal-modal-backdrop" class="legal-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="legal-modal-title">
   <div class="legal-modal-card">
-    <!-- Encabezado del Modal -->
     <div class="legal-modal-header">
       <div id="legal-modal-title" class="legal-modal-title">Documentos Legales · Minji Labs</div>
       <button type="button" id="legal-modal-close" class="legal-modal-close-btn" aria-label="Cerrar ventana modal">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
 
-    <!-- Pestañas de Navegación Legal -->
     <div class="legal-modal-tabs" role="tablist">
       <button type="button" class="legal-tab-btn is-active" data-legal-tab="terms" role="tab" aria-selected="true">
         Términos del Servicio
@@ -29,9 +26,7 @@
       </button>
     </div>
 
-    <!-- Contenido Scrollable de los Documentos -->
     <div class="legal-modal-content">
-      <!-- 1. TÉRMINOS DEL SERVICIO -->
       <div id="doc-panel-terms" class="legal-doc-panel is-active" role="tabpanel">
         <div>
           <h3 class="legal-clause-title">1. Identificación y Alcance</h3>
@@ -76,7 +71,6 @@
         </div>
       </div>
 
-      <!-- 2. POLÍTICA DE PRIVACIDAD -->
       <div id="doc-panel-privacy" class="legal-doc-panel" role="tabpanel">
         <div>
           <h3 class="legal-clause-title">1. Marco Normativo (Ley N° 29733 - Perú)</h3>
@@ -107,7 +101,6 @@
         </div>
       </div>
 
-      <!-- 3. ACUERDO DE SOPORTE MENSUAL -->
       <div id="doc-panel-support" class="legal-doc-panel" role="tabpanel">
         <div>
           <h3 class="legal-clause-title">1. Cobertura del Plan de Soporte (S/. 49 / mes)</h3>
@@ -142,12 +135,23 @@
     const docPanels = document.querySelectorAll<HTMLElement>('.legal-doc-panel');
     const triggerButtons = document.querySelectorAll<HTMLElement>('[data-legal-trigger]');
 
-    function openModal(tabKey: string = 'terms') {
+    let lastFocusedElement: HTMLElement | null = null;
+
+    function getFocusableElements(): HTMLElement[] {
+      if (!backdrop) return [];
+      return Array.from(
+        backdrop.querySelectorAll<HTMLElement>('button, [href], [tabindex]:not([tabindex="-1"])')
+      );
+    }
+
+    function openModal(tabKey = 'terms') {
       if (!backdrop) return;
+      lastFocusedElement = document.activeElement as HTMLElement | null;
       backdrop.classList.add('is-open');
       backdrop.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       selectTab(tabKey);
+      requestAnimationFrame(() => closeBtn?.focus());
     }
 
     function closeModal() {
@@ -155,22 +159,23 @@
       backdrop.classList.remove('is-open');
       backdrop.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      lastFocusedElement?.focus();
     }
 
     function selectTab(tabKey: string) {
-      tabButtons.forEach(btn => {
+      tabButtons.forEach((btn) => {
         const isMatch = btn.dataset.legalTab === tabKey;
         btn.classList.toggle('is-active', isMatch);
         btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
       });
 
-      docPanels.forEach(panel => {
+      docPanels.forEach((panel) => {
         const isMatch = panel.id === `doc-panel-${tabKey}`;
         panel.classList.toggle('is-active', isMatch);
       });
     }
 
-    triggerButtons.forEach(btn => {
+    triggerButtons.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const tabKey = btn.dataset.legalTrigger || 'terms';
@@ -181,18 +186,35 @@
     closeBtn?.addEventListener('click', closeModal);
 
     backdrop?.addEventListener('click', (e) => {
-      if (e.target === backdrop) {
-        closeModal();
-      }
+      if (e.target === backdrop) closeModal();
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && backdrop?.classList.contains('is-open')) {
+      if (!backdrop?.classList.contains('is-open')) return;
+
+      if (e.key === 'Escape') {
         closeModal();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusable = getFocusableElements();
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     });
 
-    tabButtons.forEach(btn => {
+    tabButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const tabKey = btn.dataset.legalTab;
         if (tabKey) selectTab(tabKey);

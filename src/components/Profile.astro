@@ -1,83 +1,54 @@
 ---
-// Profile.astro - Minji Labs (En primera persona singular)
+import ProfileCard from './ProfileCard.astro';
 ---
 
-<!-- Tarjeta de Perfil idéntica a Selv -->
-<section class="selv-profile-card">
-  <div class="selv-profile-top-label">
-    <span>Desarrollo Web & Landing Pages</span>
-  </div>
+<ProfileCard ctaLabel="Cotizar mi proyecto" ctaTarget="contact" headingTag="div" />
 
-  <div class="selv-profile-middle-row">
-    <img 
-      src="/images/avatar-minji.jpg" 
-      alt="Minji Developer" 
-      class="selv-profile-avatar"
-    />
-    <div class="selv-profile-name-col">
-      <div class="selv-profile-headline">
-        <span>Minji</span>
-        <span>Labs</span>
-      </div>
-      <div class="selv-profile-location">
-        Lima, Perú
-      </div>
-    </div>
-  </div>
-
-  <div class="selv-profile-bottom-action">
-    <a href="#contact" data-navigate="contact" class="selv-pill-btn">
-      <span>Contáctame</span>
-    </a>
-  </div>
-</section>
-
-<!-- Sección de propuesta de valor en primera persona -->
 <section class="card-section">
-  <h2 class="selv-section-label">¿Por qué trabajar conmigo?</h2>
+  <h2 class="section-label">¿Por qué trabajar conmigo?</h2>
 
   <div class="pitch-callout">
-    <strong>Dedicación completa para tu proyecto:</strong>Al trabajar directamente conmigo, tu proyecto recibe mi atención al 100%. Hablas directamente con quien diseña y programa tu página, sin agencias infladas ni intermediarios.
+    <strong>Trato directo de principio a fin:</strong> Hablas por WhatsApp directamente con quien diseña y programa tu web. Sin intermediarios, sin reuniones interminables y con fecha de entrega clara desde el día uno.
   </div>
 
   <p class="hero-bio">
-    Sé lo frustrante que es pagar por páginas web lentas, idénticas a las demás o que tardan semanas en entregarse. Me enfoco en lo que de verdad importa: que tu web abra al instante en cualquier celular, comunique lo que ofreces con claridad y te ayude a conseguir clientes.
+    Si ya te pasó esperar semanas por una web lenta o igual a las demás, aquí trabajamos distinto: código limpio hecho a medida para que tu página abra al instante en cualquier celular y convierta visitas en mensajes.
   </p>
 
   <div class="pitch-highlights" id="pitch-cards-stack">
     <div class="pitch-item">
       <div class="pitch-item-title">
-        <span>Carga Inmediata</span>
+        <span>Carga en segundos</span>
       </div>
       <p class="pitch-item-desc">
-        Construyo con tecnologías modernas como Astro para que tu web abra al segundo en cualquier celular.
+        Construyo con Astro para que tu web abra casi al instante en datos móviles y no pierdas clientes por lentitud.
       </p>
     </div>
 
     <div class="pitch-item">
       <div class="pitch-item-title">
-        <span>Trato 1 a 1 Directo</span>
+        <span>Trato 1 a 1 por WhatsApp</span>
       </div>
       <p class="pitch-item-desc">
-        Hablas directamente conmigo por WhatsApp. Respuestas claras, comunicación transparente y sin rodeos.
+        Coordinas avances y cambios directo conmigo, sin intermediarios ni respuestas genéricas de soporte.
       </p>
     </div>
 
     <div class="pitch-item">
       <div class="pitch-item-title">
-        <span>Diseño Exclusivo</span>
+        <span>Entrega en días</span>
       </div>
       <p class="pitch-item-desc">
-        Nada de plantillas pesadas o copiadas. Código limpio y ligero con estética moderna y profesional.
+        Landing pages listas en 3 a 5 días hábiles tras recibir tu material, con 30 días de garantía técnica incluida.
       </p>
     </div>
 
     <div class="pitch-item">
       <div class="pitch-item-title">
-        <span>Soporte Accesible</span>
+        <span>Soporte sin ataduras</span>
       </div>
       <p class="pitch-item-desc">
-        Mantenimiento mensual desde 49 soles al mes para que tu web siempre esté activa, segura y actualizada.
+        Planes de mantenimiento a medida para mantener tu web activa y actualizada cuando me escribas, sin contratos forzosos.
       </p>
     </div>
   </div>
@@ -86,29 +57,42 @@
 <script>
   function setupPitchCardsStack() {
     const stack = document.getElementById('pitch-cards-stack');
-    if (!stack || stack.dataset.initialized) return;
+    if (!stack || stack.dataset.initialized === 'true') return;
     stack.dataset.initialized = 'true';
 
     const cards = Array.from(stack.querySelectorAll<HTMLElement>('.pitch-item'));
     if (cards.length === 0) return;
 
     let currentIndex = 0;
-    let timer: ReturnType<typeof setInterval> | null = null;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    let transitionTimeoutId: ReturnType<typeof setTimeout> | null = null;
     let isTransitioning = false;
+    let lastTouchHandledAt = 0;
 
     function isMobile() {
       return window.innerWidth <= 640;
     }
 
+    function syncStackHeight() {
+      if (!stack) return;
+      if (!isMobile()) {
+        stack.style.height = '';
+        return;
+      }
+      const maxCardHeight = cards.reduce((max, card) => Math.max(max, card.offsetHeight), 120);
+      stack.style.height = `${maxCardHeight + 24}px`;
+    }
+
     function renderStack(leavingCard: HTMLElement | null = null, direction: 'left' | 'right' = 'left') {
       if (!isMobile()) {
-        cards.forEach(card => {
+        cards.forEach((card) => {
           card.style.transform = '';
           card.style.opacity = '';
           card.style.zIndex = '';
           card.style.pointerEvents = '';
           card.style.filter = '';
         });
+        syncStackHeight();
         return;
       }
 
@@ -151,35 +135,20 @@
           card.style.filter = 'none';
         }
       });
+
+      syncStackHeight();
     }
 
-    function goToNext(manual = false) {
+    function advance(step: 1 | -1, direction: 'left' | 'right', manual = false) {
       if (!isMobile() || isTransitioning) return;
       isTransitioning = true;
 
       const leaving = cards[currentIndex];
-      currentIndex = (currentIndex + 1) % cards.length;
+      currentIndex = (currentIndex + step + cards.length) % cards.length;
+      renderStack(leaving, direction);
 
-      renderStack(leaving, 'left');
-
-      setTimeout(() => {
-        isTransitioning = false;
-        renderStack();
-      }, 450);
-
-      if (manual) restartTimer();
-    }
-
-    function goToPrev(manual = false) {
-      if (!isMobile() || isTransitioning) return;
-      isTransitioning = true;
-
-      const leaving = cards[currentIndex];
-      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-
-      renderStack(leaving, 'right');
-
-      setTimeout(() => {
+      if (transitionTimeoutId) clearTimeout(transitionTimeoutId);
+      transitionTimeoutId = setTimeout(() => {
         isTransitioning = false;
         renderStack();
       }, 450);
@@ -190,16 +159,16 @@
     function startTimer() {
       stopTimer();
       if (isMobile()) {
-        timer = setInterval(() => {
-          goToNext(false);
+        intervalId = setInterval(() => {
+          advance(1, 'left', false);
         }, 7000);
       }
     }
 
     function stopTimer() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
       }
     }
 
@@ -233,20 +202,23 @@
       const diffY = endY - startY;
 
       if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        lastTouchHandledAt = Date.now();
         if (diffX < 0) {
-          goToNext(true);
+          advance(1, 'left', true);
         } else {
-          goToPrev(true);
+          advance(-1, 'right', true);
         }
       } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
-        goToNext(true);
+        lastTouchHandledAt = Date.now();
+        advance(1, 'left', true);
       }
     });
 
-    // Clic o toque sobre la pila (avanza a la siguiente carta)
     stack.addEventListener('click', () => {
       if (!isMobile()) return;
-      goToNext(true);
+      // Evita doble disparo cuando touchend ya manejó el toque y el navegador sintetiza click
+      if (Date.now() - lastTouchHandledAt < 400) return;
+      advance(1, 'left', true);
     });
 
     renderStack();
@@ -255,7 +227,7 @@
     window.addEventListener('resize', () => {
       renderStack();
       if (isMobile()) {
-        if (!timer) startTimer();
+        if (!intervalId) startTimer();
       } else {
         stopTimer();
       }
